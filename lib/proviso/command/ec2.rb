@@ -47,7 +47,7 @@ module Proviso::Command
         @max_count = ec2_config['max_count']
         display "Config File Loaded...", true
       else
-        error "proviso.yml not found"
+        error "proviso.yml config file not found."
       end
     end
     
