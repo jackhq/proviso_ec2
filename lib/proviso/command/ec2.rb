@@ -38,12 +38,17 @@ module Proviso::Command
     end
     
     def load_config
-      ec2_config = YAML.load_file('proviso.yml')["ec2"]
-      @image_id = ec2_config['image_id']
-      @availability_zone = ec2_config['availability_zone']
-      @key_name = ec2_config['key_name']
-      @security_group = ec2_config['security_group']
-      @max_count = ec2_config['max_count']
+      if File.exists?('proviso.yml')
+        ec2_config = YAML.load_file('proviso.yml')["ec2"]
+        @image_id = ec2_config['image_id']
+        @availability_zone = ec2_config['availability_zone']
+        @key_name = ec2_config['key_name']
+        @security_group = ec2_config['security_group']
+        @max_count = ec2_config['max_count']
+        display "Config File Loaded...", true
+      else
+        error "proviso.yml not found"
+      end
     end
     
   end
