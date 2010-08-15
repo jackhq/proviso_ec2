@@ -12,7 +12,7 @@ module Proviso::Command
     
 
     def list
-      @ec2.describe_instances().reservationSet.item.map { |i| puts i.instancesSet.item.first["dnsName"] + ' ' + i.instancesSet.item.first["instanceId"] }
+      @ec2.describe_instances().reservationSet.item.map { |i| puts i.instancesSet.item.first["dnsName"] + ' ' + (i.instancesSet.item.first["instanceId"] || '') }
     end
     
     def create
