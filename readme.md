@@ -7,6 +7,8 @@ using a simple command line instruction.
 
     gem install proviso
     
+    gem install amazon-ec2
+    
     proviso plugins:install git://github.com/jackhq/proviso_ec2.git
     
     # Create or Update proviso.yml file for configuration 
