@@ -48,8 +48,8 @@ module Proviso::Command
     end
     
     def load_config
-      if File.exists?('proviso.yml')
-        ec2_config = YAML.load_file('proviso.yml')["ec2"]
+      if File.exists?(yaml_file)
+        ec2_config = YAML.load_file(yaml_file)["ec2"]
         @image_id = ec2_config['image_id']
         @availability_zone = ec2_config['availability_zone']
         @key_name = ec2_config['key_name']
