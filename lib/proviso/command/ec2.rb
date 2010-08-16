@@ -44,12 +44,14 @@ module Proviso::Command
     end
     
     def establish_connection
-      AWS::EC2::Base.new(:access_key_id => ENV['AMAZON_ACCESS_KEY_ID'], :secret_access_key => ENV['AMAZON_SECRET_ACCESS_KEY'])      
+      AWS::EC2::Base.new(:access_key_id => @access_key_id, :secret_access_key => @secret_access_key)      
     end
     
     def load_config
       if File.exists?(yaml_file)
         ec2_config = YAML.load_file(yaml_file)["ec2"]
+        @access_key_id = ec2_config['access_key_id'] || ENV['AMAZON_ACCESS_KEY_ID']
+        @secret_access_key = ec2_config['secret_access_key'] || ENV['AMAZON_SECRET_ACCESS_KEY']
         @image_id = ec2_config['image_id']
         @availability_zone = ec2_config['availability_zone']
         @key_name = ec2_config['key_name']
