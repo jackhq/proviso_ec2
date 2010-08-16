@@ -26,11 +26,21 @@ module Proviso::Command
     end
     
     def remove
-      @ec2.terminate_instances(:instance_id => @args[0])
+      if @args.length == 1
+        @ec2.terminate_instances(:instance_id => @args.first)
+        display "Successfully removed server.", true
+      else
+        error "instance_id required: eg. proviso ec2:remove [instance_id]"
+      end
+      
     end
     
     def status
-      puts @ec2.describe_instances(:instance_id => @args[0]).reservationSet.item.first.instancesSet.item.first.inspect  
+      if @args.length == 1
+        display @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first.inspect, true
+      else
+        error "instance_id required: eg. proviso ec2:status [instance_id]"        
+      end  
     end
     
     def establish_connection
