@@ -3,6 +3,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'proviso'
 require 'proviso/command'
 
+require 'proviso/command/ec2'
+
 require 'spec'
 require 'spec/autorun'
 
