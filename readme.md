@@ -11,26 +11,23 @@ using a simple command line instruction.
     
     proviso plugins:install git://github.com/jackhq/proviso_ec2.git
     
-    # Create or Update proviso.yml file for configuration 
-    
-    # The proviso.yml file needs to be in the current working directory.
-    
+    # Create configuration     
     # create a node called ec2: and add the following criteria:
     
-    # image_id: ami-2d4aa444
-    # availability_zone: us-east-1c
-    # key_name: ec2-keypair
-    # security_group: default
-    # max_count: 1
+    proviso config:create ec2
     
-    # Also make sure you have the environment varibles for ec2 setup:
-    # AMAZON_ACCESS_KEY_ID
-    # AMAZON_SECRET_ACCESS_KEY
+    proviso config:add access_key_id [your access key]
+    proviso config:add secret_access_key [your secret access key]
+    proviso config:add image_id ami-2d4aa444
+    proviso config:add availability_zone us-east-1c
+    proviso config:add key_name ec2-keypair
+    proviso config:add security_group default
+    proviso config:add max_count 1
     
-    ## Future releases will let you specify these settings from the command line...
+    proviso config:list 
     
-    # Ok if you have everything configured, you should be able to do the following:
-    
+    you should see your config setting listed in config output
+        
     # List Ec2 Servers
     proviso ec2:list
   
@@ -43,10 +40,12 @@ using a simple command line instruction.
     # Status of Ec2 Server
     proviso ec2:status [instance_id]
     
+    # You can also override any parameter from the command line
+    
+    proviso ec2:create --image_id [my awesome image]
+    
 ## TODO
 
-* Enable settings to be passed in the command line
-* Enable key and secret key to passed in the yaml file
 * Allow to remove server by specifing ip or url
 * Allow to get status of server by ip or url
 
