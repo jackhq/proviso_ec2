@@ -4,7 +4,7 @@ require 'yaml'
 module Proviso::Command
   class Ec2 < Base
 
-    attr_accessor :access_key_id, :secret_access_key, :image_id, :key_name, :max_count, :availability_zone, :security_group
+    attr_accessor :access_key_id, :secret_access_key, :image_id, :key_name, :max_count, :availability_zone, :security_group, :instance_type
 
     def initialize(args)
       @args = args
@@ -15,7 +15,9 @@ module Proviso::Command
     
 
     def list
-      @ec2.describe_instances().reservationSet.item.map { |i| puts i.instancesSet.item.first["dnsName"] + ' ' + (i.instancesSet.item.first["instanceId"] || '') }
+      @ec2.describe_instances().reservationSet.item.map do |i| 
+        puts (i.instancesSet.item.first["dnsName"] || "Name Not Available") + ' ' + (i.instancesSet.item.first["instanceId"] || '') 
+      end
     end
     
     def create
@@ -24,7 +26,8 @@ module Proviso::Command
         :key_name               =>                  @key_name, 
         :max_count              =>                  @max_count,
         :availability_zone      =>                  @availability_zone,
-        :security_group         =>                  @security_group
+        :security_group         =>                  @security_group,
+        :instance_type          =>                  @instance_type
       ).inspect 
     end
     
@@ -43,7 +46,7 @@ module Proviso::Command
         display @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first.inspect, true
       else
         error "instance_id required: eg. proviso ec2:status [instance_id]"        
-      end  
+      end 
     end
     
     def establish_connection
@@ -60,6 +63,7 @@ module Proviso::Command
         @key_name = get_option_value('key_name', ec2_config)
         @security_group = get_option_value('security_group', ec2_config)
         @max_count = get_option_value('max_count', ec2_config)
+        @instance_type = get_option_value('instance_type', ec2_config)
         display "Config File Loaded...", true
       else
         error "proviso.yml config file not found."
