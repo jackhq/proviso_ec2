@@ -16,7 +16,11 @@ module Proviso::Command
 
     def list
       @ec2.describe_instances().reservationSet.item.map do |i| 
-        puts (i.instancesSet.item.first["dnsName"] || "Name Not Available") + ' ' + (i.instancesSet.item.first["instanceId"] || '') 
+        begin
+          puts (i.instancesSet.item.first["dnsName"] || "Name Not Available") + ' ' + (i.instancesSet.item.first["instanceId"] || '' + ' ' + (i.instancesSet.item.first["imageId"] || '')) 
+        rescue
+          error i.inspect
+        end
       end
     end
     
