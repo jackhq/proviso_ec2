@@ -35,7 +35,7 @@ module Proviso::Command
         :availability_zone      =>                  @availability_zone,
         :security_group         =>                  @security_group,
         :instance_type          =>                  @instance_type
-      ).inspect 
+      )
     end
     
     def remove
@@ -50,7 +50,7 @@ module Proviso::Command
     
     def status
       if @args.length == 1
-        ap @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first.inspect, true
+        ap @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first
       else
         error "instance_id required: eg. proviso ec2:status [instance_id]"        
       end 
