@@ -1,6 +1,14 @@
 require 'AWS'
 require 'yaml'
 
+begin
+  require "ap"
+rescue
+  puts "Use Awesome Print"
+  puts "gem install awesome_print"
+end
+
+
 module Proviso::Command
   class Ec2 < Base
 
@@ -17,7 +25,8 @@ module Proviso::Command
     def list
       @ec2.describe_instances().reservationSet.item.map do |i| 
         begin
-          puts (i.instancesSet.item.first["dnsName"] || "Name Not Available") + ' ' + (i.instancesSet.item.first["instanceId"] || '' + ' ' + (i.instancesSet.item.first["imageId"] || '')) 
+          ap i.instancesSet.item.first
+          #puts (i.instancesSet.item.first["dnsName"] || "Name Not Available") + ' ' + (i.instancesSet.item.first["instanceId"] || '' + ' ' + (i.instancesSet.item.first["imageId"] || '')) 
         rescue
           error i.inspect
         end
@@ -47,7 +56,7 @@ module Proviso::Command
     
     def status
       if @args.length == 1
-        display @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first.inspect, true
+        ap @ec2.describe_instances(:instance_id => @args.first).reservationSet.item.first.instancesSet.item.first.inspect, true
       else
         error "instance_id required: eg. proviso ec2:status [instance_id]"        
       end 
