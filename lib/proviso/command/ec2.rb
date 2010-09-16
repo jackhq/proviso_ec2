@@ -1,12 +1,6 @@
 require 'AWS'
 require 'yaml'
-
-begin
-  require "ap"
-rescue
-  puts "Use Awesome Print"
-  puts "gem install awesome_print"
-end
+require "ap"
 
 
 module Proviso::Command
