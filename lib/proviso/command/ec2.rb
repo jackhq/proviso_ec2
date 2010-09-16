@@ -28,7 +28,7 @@ module Proviso::Command
     end
     
     def create
-      puts @ec2.run_instances(
+      ap @ec2.run_instances(
         :image_id               =>                  @image_id, 
         :key_name               =>                  @key_name, 
         :max_count              =>                  @max_count,
